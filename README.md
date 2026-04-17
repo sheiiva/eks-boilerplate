@@ -1,5 +1,7 @@
 # Production-Ready EKS Boilerplate
 
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+
 ## Business Value
 
 This project demonstrates a production-grade Kubernetes landing zone on AWS that reduces time-to-market while preserving enterprise-grade security, scalability, and operational consistency.
