@@ -1,14 +1,31 @@
 # Environment: demo
 
-Reference composition wiring landing-zone modules for a portfolio / dry-run demo.
+Reference composition for the EKS landing zone (P1: network foundation).
 
-**Status:** scaffold (wired as modules land in P1–P4)
+## Prerequisites
 
-## Intent
+1. Apply remote state bootstrap once: `terraform/bootstrap/`
+2. Copy examples and fill real backend values:
 
-- Non-production defaults (e.g. single NAT) for cost-aware demos
-- Example tfvars without secrets (`terraform.tfvars.example` in a later milestone)
+```bash
+cp terraform.tfvars.example terraform.tfvars
+cp backend.hcl.example backend.hcl
+# edit backend.hcl from bootstrap outputs
+```
 
-## Apply note
+## Commands
 
-Live `terraform apply` requires an AWS account and remote state from P1+. Until then, this directory documents the intended composition shape.
+```bash
+terraform init -backend-config=backend.hcl
+terraform plan
+terraform apply
+```
+
+For local validation without a remote backend, temporarily comment the `backend "s3" {}` block or use:
+
+```bash
+terraform init -backend=false
+terraform validate
+```
+
+EKS / Karpenter / add-ons modules are wired in later milestones (P2–P4).

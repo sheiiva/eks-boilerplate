@@ -1,0 +1,8 @@
+project_name = "eks-lz"
+environment  = "demo"
+owner        = "platform"
+aws_region   = "eu-west-1"
+
+# Optional: force a unique bucket name if the derived name collides
+# state_bucket_name = "eks-lz-demo-tfstate-YOURUNIQUE"
+# force_destroy     = true   # demo teardown only

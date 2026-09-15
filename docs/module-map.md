@@ -45,11 +45,11 @@ remote-state (once per account)
 
 ## Implementation Tracking
 
-| Module | Milestone |
-|---|---|
-| Scaffold + READMEs | P0 |
-| `remote-state` + `network` | P1 |
-| `eks` | P2 |
-| `karpenter` | P3 |
-| `addons` | P4 |
-| CI validate + runbooks | P5 |
+| Module | Milestone | Status |
+|---|---|---|
+| Scaffold + READMEs | P0 | Done |
+| `remote-state` + `network` | P1 | Done |
+| `eks` | P2 | Planned |
+| `karpenter` | P3 | Planned |
+| `addons` | P4 | Planned |
+| CI validate + runbooks | P5 | Planned |

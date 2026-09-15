@@ -21,6 +21,10 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+terraform.tfvars
+backend.hcl
+!*.tfvars.example
+!*.hcl.example
 
 # -----------------------------
 # Kubernetes and Helm artifacts

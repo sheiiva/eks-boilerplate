@@ -23,11 +23,20 @@ Deliverables:
 
 - Remote state bootstrap (S3 + lock) documented and modular
 - Private VPC topology with public/private subnets and NAT
+- Optional VPC endpoints (S3/ECR/STS/EC2/Logs)
 - Baseline tagging and outputs consumed by EKS
+- Demo composition wiring + `*.example` configs
 
 Outcome:
 
 - Safe IaC collaboration and a private network ready for the control plane.
+
+### P1 acceptance
+
+- [x] `modules/remote-state` implemented and documented
+- [x] `terraform/bootstrap` composition for one-time apply
+- [x] `modules/network` with EKS/Karpenter discovery tags
+- [x] `environments/demo` wires network; backend/tfvars examples committed
 
 ## P2 - EKS Control Plane
 

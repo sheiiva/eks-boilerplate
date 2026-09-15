@@ -29,4 +29,6 @@ This project demonstrates a production-grade Kubernetes landing zone on AWS that
 
 ## Current status
 
-**P0 (productization) complete** — design docs and Terraform scaffolds are in place. Implementation of network, EKS, Karpenter, and add-ons follows milestones P1–P5.
+**P0–P1 complete** — productization docs plus remote-state bootstrap and private VPC network modules. Next: EKS control plane (P2).
+
+Bootstrap + demo apply notes: [`terraform/bootstrap/README.md`](./terraform/bootstrap/README.md), [`terraform/environments/demo/README.md`](./terraform/environments/demo/README.md).

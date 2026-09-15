@@ -1,0 +1,11 @@
+project_name = "eks-lz"
+environment  = "demo"
+owner        = "platform"
+aws_region   = "eu-west-1"
+
+vpc_cidr             = "10.40.0.0/16"
+az_count             = 2
+single_nat_gateway   = true
+enable_vpc_endpoints = true
+
+cluster_name = "eks-lz-demo"

@@ -1,0 +1,5 @@
+bucket         = "eks-lz-demo-tfstate-eu-west-1"
+key            = "demo/terraform.tfstate"
+region         = "eu-west-1"
+dynamodb_table = "eks-lz-demo-tf-locks"
+encrypt        = true
