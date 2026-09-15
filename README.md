@@ -19,3 +19,14 @@ This project demonstrates a production-grade Kubernetes landing zone on AWS that
 - `terraform/`: reusable modules and environment compositions
 - `scripts/`: automation and validation helpers
 - `docs/`: architecture decisions, runbooks, and operations notes
+
+## Delivery docs
+
+- Roadmap: [`docs/roadmap.md`](./docs/roadmap.md)
+- Architecture: [`docs/architecture.md`](./docs/architecture.md)
+- Module map: [`docs/module-map.md`](./docs/module-map.md)
+- Config model: [`docs/config-model.md`](./docs/config-model.md)
+
+## Current status
+
+**P0 (productization) complete** — design docs and Terraform scaffolds are in place. Implementation of network, EKS, Karpenter, and add-ons follows milestones P1–P5.
