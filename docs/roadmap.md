@@ -50,6 +50,12 @@ Outcome:
 
 - Usable managed Kubernetes API in private networking.
 
+### P2 acceptance
+
+- [x] `modules/eks` with OIDC, KMS encryption, access entries, managed add-ons
+- [x] Optional bootstrap managed node group
+- [x] Operator access documented; demo composition wires EKS
+
 ## P3 - Karpenter Node Autoscaling
 
 Deliverables:

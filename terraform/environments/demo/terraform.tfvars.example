@@ -6,6 +6,11 @@ aws_region   = "eu-west-1"
 vpc_cidr             = "10.40.0.0/16"
 az_count             = 2
 single_nat_gateway   = true
-enable_vpc_endpoints = true
+enable_vpc_endpoints = false
 
-cluster_name = "eks-lz-demo"
+cluster_name       = "eks-lz-demo"
+kubernetes_version = "1.31"
+enable_eks         = true
+
+# Restrict in real accounts, e.g. ["x.x.x.x/32"]
+public_access_cidrs = ["0.0.0.0/0"]

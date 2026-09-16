@@ -7,10 +7,10 @@ Reusable modules and environment compositions for the EKS landing zone.
 - `bootstrap/` — one-time remote state (S3 + DynamoDB lock) with local state
 - `modules/remote-state/` — state bucket + lock table
 - `modules/network/` — VPC and networking baseline
-- `modules/eks/` — EKS control plane and IRSA/OIDC (P2)
+- `modules/eks/` — EKS control plane and IRSA/OIDC
 - `modules/karpenter/` — Karpenter controller and NodePool defaults (P3)
 - `modules/addons/` — ALB Controller, External-DNS, External-Secrets (P4)
-- `environments/demo/` — reference composition (network wired in P1)
+- `environments/demo/` — reference composition (network + EKS)
 
 ## Notes
 

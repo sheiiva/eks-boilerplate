@@ -1,14 +1,33 @@
 # Module: eks
 
-EKS control plane, cluster IAM, OIDC provider, and access model.
+EKS control plane with OIDC/IRSA, optional secrets encryption (KMS), access entries, managed add-ons (vpc-cni, coredns, kube-proxy), and an optional thin bootstrap node group for initial controllers.
 
-**Status:** scaffold (implementation in **P2**)
+**Status:** implemented (P2)
 
-## Planned inputs
+## Usage
 
-- `cluster_name`, `kubernetes_version`, subnet IDs, KMS options
-- Bootstrap node group toggle (thin path for initial controllers if needed)
+```hcl
+module "eks" {
+  source = "../../modules/eks"
 
-## Planned outputs
+  project_name       = "eks-lz"
+  environment        = "demo"
+  owner              = "platform"
+  cluster_name       = "eks-lz-demo"
+  kubernetes_version = "1.31"
+  subnet_ids         = module.network.private_subnet_ids
+}
+```
 
-- `cluster_name`, `cluster_endpoint`, `oidc_provider_arn`, `cluster_security_group_id`
+## Operator access
+
+```bash
+aws eks update-kubeconfig --name <cluster_name> --region <region>
+```
+
+Access entries grant `AmazonEKSClusterAdminPolicy` to extra ARNs in `cluster_admin_principal_arns`. The cluster creator receives admin via `bootstrap_cluster_creator_admin_permissions`.
+
+## Notes
+
+- Public API endpoint defaults to on for demo/operator laptops; restrict `public_access_cidrs` in real environments.
+- Keep the bootstrap node group until Karpenter is healthy, then scale it down if desired.

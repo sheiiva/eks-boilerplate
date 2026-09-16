@@ -49,7 +49,7 @@ remote-state (once per account)
 |---|---|---|
 | Scaffold + READMEs | P0 | Done |
 | `remote-state` + `network` | P1 | Done |
-| `eks` | P2 | Planned |
+| `eks` | P2 | Done |
 | `karpenter` | P3 | Planned |
 | `addons` | P4 | Planned |
 | CI validate + runbooks | P5 | Planned |
