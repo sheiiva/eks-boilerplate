@@ -10,7 +10,9 @@ Portfolio and client reuse share the same design: private-by-default networking,
 
 Canonical view (same asset as the [README](../README.md) hero):
 
-![EKS landing zone architecture](./assets/architecture.svg)
+![EKS landing zone architecture](./assets/architecture.png)
+
+Source vector: [`architecture.svg`](./assets/architecture.svg)
 
 Layers: public edge (NAT / ALB / IGW) → private EKS + Karpenter + nodes → platform secrets path. Footer maps each layer to a Terraform module.
 

@@ -4,7 +4,7 @@ Reusable modules and environment compositions for the EKS landing zone.
 
 <p align="center">
   <a href="../docs/architecture.md">
-    <img src="../docs/assets/architecture.svg" alt="EKS landing zone architecture" width="720" />
+    <img src="../docs/assets/architecture.png" alt="EKS landing zone architecture" width="720" />
   </a>
 </p>
 

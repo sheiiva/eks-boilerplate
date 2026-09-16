@@ -1,6 +1,6 @@
 # Module Map
 
-Terraform modules and what each owns. Visual: [`architecture.svg`](./assets/architecture.svg) · narrative: [`architecture.md`](./architecture.md).
+Terraform modules and what each owns. Visual: [`architecture.png`](./assets/architecture.png) · narrative: [`architecture.md`](./architecture.md).
 
 ## Layout
 

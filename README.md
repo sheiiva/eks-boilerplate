@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/sheiiva/eks-boilerplate)](./LICENSE)
 
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="EKS landing zone architecture: private VPC, EKS, Karpenter, ALB, External Secrets, Terraform modules" width="920" />
+  <img src="./docs/assets/architecture.png" alt="EKS landing zone architecture: private VPC, EKS, Karpenter, ALB, External Secrets, Terraform modules" width="920" />
 </p>
 
 <p align="center">
@@ -71,7 +71,7 @@ terraform/
   modules/             # remote-state · network · eks · karpenter · addons
   environments/demo/   # reference composition
 docs/
-  assets/architecture.svg
+  assets/architecture.{svg,png}
   runbooks/            # bootstrap · api-access · observability · cost
 examples/              # Ingress · ExternalSecret samples
 ```
