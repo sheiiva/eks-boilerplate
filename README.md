@@ -22,37 +22,7 @@
   <a href="./docs/runbooks/cost-guardrails.md">Cost guardrails</a>
 </p>
 
----
-
-## Architecture at a glance
-
-```mermaid
-flowchart LR
-  subgraph Edge
-    U[Users] --> ALB[ALB Controller]
-  end
-
-  subgraph VPC[Private VPC]
-    PUB[Public + NAT] --> PRIV[Private subnets]
-    PRIV --> EKS[EKS + OIDC/IRSA]
-    EKS --> KARP[Karpenter]
-    KARP --> NODES[Nodes / workloads]
-    ALB --> NODES
-    ESO[External Secrets] --> SM[Secrets Manager]
-    NODES --> ESO
-  end
-
-  subgraph IaC[Terraform]
-    RS[remote-state] --> NET[network]
-    NET --> EKSM[eks]
-    EKSM --> KARPM[karpenter]
-    EKSM --> ADD[addons]
-  end
-
-  IaC -.-> VPC
-```
-
-Module dependency order: **remote-state → network → eks → karpenter / addons**
+Module order: **remote-state → network → eks → karpenter / addons** — detail in [`docs/architecture.md`](./docs/architecture.md).
 
 ---
 

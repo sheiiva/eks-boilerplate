@@ -1,6 +1,6 @@
 # Module Map
 
-Planned Terraform modules and what each owns. Modules are scaffolded in P0; implementation lands in later milestones.
+Terraform modules and what each owns. Visual: [`architecture.svg`](./assets/architecture.svg) · narrative: [`architecture.md`](./architecture.md).
 
 ## Layout
 

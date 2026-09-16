@@ -2,6 +2,12 @@
 
 Reusable modules and environment compositions for the EKS landing zone.
 
+<p align="center">
+  <a href="../docs/architecture.md">
+    <img src="../docs/assets/architecture.svg" alt="EKS landing zone architecture" width="720" />
+  </a>
+</p>
+
 ## Layout
 
 - `bootstrap/` — one-time remote state (S3 + DynamoDB lock) with local state

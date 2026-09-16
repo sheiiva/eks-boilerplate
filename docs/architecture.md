@@ -8,59 +8,11 @@ Portfolio and client reuse share the same design: private-by-default networking,
 
 ## System Diagram
 
-Interactive copy (Mermaid) also appears on the [README](../README.md). Static overview:
+Canonical view (same asset as the [README](../README.md) hero):
 
 ![EKS landing zone architecture](./assets/architecture.svg)
 
-```mermaid
-flowchart TB
-  subgraph Edge
-    Users[Clients / operators]
-    DNS[Route53 / External-DNS]
-    ALB[AWS Load Balancer Controller]
-  end
-
-  subgraph Network["Private VPC"]
-    PUB[Public subnets + NAT]
-    PRIV[Private subnets]
-  end
-
-  subgraph Control["EKS control plane"]
-    API[EKS API / kube-apiserver]
-  end
-
-  subgraph DataPlane["Data plane"]
-    Karp[Karpenter]
-    Nodes[EC2 nodes / NodePools]
-    Workloads[Workloads]
-  end
-
-  subgraph Platform["Cluster platform add-ons"]
-    ESO[External Secrets Operator]
-    SM[AWS Secrets Manager / SSM]
-  end
-
-  subgraph IaC["Terraform / OpenTofu"]
-    State[Remote state + lock]
-    Mods[Modules: network · eks · karpenter · addons]
-  end
-
-  Users --> ALB
-  ALB --> Workloads
-  DNS --> ALB
-  PUB --> PRIV
-  PRIV --> Nodes
-  API --> Nodes
-  Karp --> Nodes
-  Workloads --> Nodes
-  ESO --> SM
-  Workloads --> ESO
-  State --> Mods
-  Mods --> Network
-  Mods --> Control
-  Mods --> Karp
-  Mods --> Platform
-```
+Layers: public edge (NAT / ALB / IGW) → private EKS + Karpenter + nodes → platform secrets path. Footer maps each layer to a Terraform module.
 
 ## Design Principles
 
