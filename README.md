@@ -1,34 +1,55 @@
 # Production-Ready EKS Boilerplate
 
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![Terraform Validate](https://github.com/sheiiva/eks-boilerplate/actions/workflows/terraform-validate.yml/badge.svg)](https://github.com/sheiiva/eks-boilerplate/actions/workflows/terraform-validate.yml)
 
 ## Business Value
 
-This project demonstrates a production-grade Kubernetes landing zone on AWS that reduces time-to-market while preserving enterprise-grade security, scalability, and operational consistency.
+Reusable AWS EKS landing zone accelerator: private networking, managed control plane, Karpenter elasticity, and platform controllers (ALB, External Secrets, optional ExternalDNS) — onboard by configuration, not by rewriting modules.
 
-## Technical Stack
+## What v1 demonstrates
 
-- Terraform/OpenTofu for infrastructure as code
-- AWS EKS with Karpenter for elastic node provisioning
-- Private VPC topology with NAT Gateways and ALB Controller
-- External-DNS and External-Secrets Operator
-- Remote state and locking for safe collaborative IaC workflows
+1. **Template-first IaC** — modules + `environments/demo` composition  
+2. **Remote state bootstrap** — S3 + DynamoDB lock  
+3. **Private VPC** — NAT, optional endpoints, ALB/Karpenter subnet tags  
+4. **EKS** — OIDC/IRSA, KMS secrets encryption, access entries, bootstrap node group  
+5. **Karpenter** — IRSA controller, interruption queue, default NodePool  
+6. **Add-ons** — AWS Load Balancer Controller + External Secrets (ExternalDNS optional)  
+7. **CI** — `terraform fmt` + `validate` on every change  
 
-## Directory Layout
+Live AWS apply is **optional** and costs money — see [cost guardrails](./docs/runbooks/cost-guardrails.md). Portfolio proof is validated Terraform + architecture docs.
 
-- `terraform/`: reusable modules and environment compositions
-- `scripts/`: automation and validation helpers
-- `docs/`: architecture decisions, runbooks, and operations notes
+## Quick start (no AWS spend)
+
+```bash
+git clone https://github.com/sheiiva/eks-boilerplate.git
+cd eks-boilerplate
+./scripts/validate.sh
+```
+
+## Apply path (ephemeral demo)
+
+1. [`terraform/bootstrap`](./terraform/bootstrap/README.md) — create state backend  
+2. [`terraform/environments/demo`](./terraform/environments/demo/README.md) — network + EKS + Karpenter + add-ons  
+3. Destroy when done — [`docs/runbooks/destroy.md`](./docs/runbooks/destroy.md)
+
+## Directory layout
+
+- `terraform/modules/` — remote-state, network, eks, karpenter, addons  
+- `terraform/bootstrap/` — one-time state backend  
+- `terraform/environments/demo/` — reference composition  
+- `examples/` — Ingress + ExternalSecret samples  
+- `docs/` — architecture, roadmap, runbooks  
 
 ## Delivery docs
 
-- Roadmap: [`docs/roadmap.md`](./docs/roadmap.md)
-- Architecture: [`docs/architecture.md`](./docs/architecture.md)
-- Module map: [`docs/module-map.md`](./docs/module-map.md)
-- Config model: [`docs/config-model.md`](./docs/config-model.md)
+- [Architecture](./docs/architecture.md)  
+- [Module map](./docs/module-map.md)  
+- [Config model](./docs/config-model.md)  
+- [Roadmap](./docs/roadmap.md)  
+- [Bootstrap runbook](./docs/runbooks/bootstrap.md)  
+- [Cost guardrails](./docs/runbooks/cost-guardrails.md)  
 
 ## Current status
 
-**P0–P1 complete** — productization docs plus remote-state bootstrap and private VPC network modules. Next: EKS control plane (P2).
-
-Bootstrap + demo apply notes: [`terraform/bootstrap/README.md`](./terraform/bootstrap/README.md), [`terraform/environments/demo/README.md`](./terraform/environments/demo/README.md).
+**v1 complete (P0–P5)** — landing zone modules, demo composition, CI validate, operator runbooks.

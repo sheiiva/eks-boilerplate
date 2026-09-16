@@ -105,20 +105,17 @@ Outcome:
 
 - Portfolio-ready accelerator with auditable change path.
 
-## Product versions (current focus)
+### P5 acceptance
+
+- [x] GitHub Actions terraform fmt/validate matrix
+- [x] Runbooks: bootstrap, destroy, cost guardrails
+- [x] README v1 positioning (apply optional)
+
+## Product versions
 
 | Version | What ships | Tracking |
 |---|---|---|
-| **v0** | Productization: docs, module map, scaffold, milestones | P0 |
-| **v1** | Network + EKS + Karpenter + core add-ons + CI | P1–P5 |
-| **v1.1** | Hardening (private API options, tighter SG, observability hooks) | later |
-| **v2** | Optional GitOps / mesh / multi-account patterns | later |
-
-### P0 acceptance
-
-- [x] Architecture doc with diagram and non-goals
-- [x] Module map with dependency order
-- [x] Config / parameter model
-- [x] ADR template-first landing zone
-- [x] Terraform layout scaffold + module stub READMEs
-- [x] Roadmap published; GitHub milestones created
+| **v0** | Productization: docs, module map, scaffold, milestones | P0 (Done) |
+| **v1** | Network + EKS + Karpenter + core add-ons + CI | P1–P5 (Done) |
+| **v1.1** | Hardening + observability hooks | later |
+| **v2** | Optional GitOps / multi-account patterns | later |

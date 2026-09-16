@@ -52,4 +52,4 @@ remote-state (once per account)
 | `eks` | P2 | Done |
 | `karpenter` | P3 | Done |
 | `addons` | P4 | Done |
-| CI validate + runbooks | P5 | Planned |
+| CI validate + runbooks | P5 | Done |

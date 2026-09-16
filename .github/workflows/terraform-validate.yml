@@ -1,0 +1,45 @@
+name: Terraform Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+      - run: terraform fmt -check -recursive terraform
+
+  validate:
+    needs: fmt
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - terraform/modules/remote-state
+          - terraform/modules/network
+          - terraform/modules/eks
+          - terraform/modules/karpenter
+          - terraform/modules/addons
+          - terraform/bootstrap
+          - terraform/environments/demo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+      - name: Terraform init
+        working-directory: ${{ matrix.path }}
+        run: terraform init -backend=false -input=false -upgrade
+      - name: Terraform validate
+        working-directory: ${{ matrix.path }}
+        run: terraform validate
