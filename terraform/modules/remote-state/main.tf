@@ -22,6 +22,10 @@ locals {
 }
 
 resource "aws_s3_bucket" "state" {
+  # checkov:skip=CKV_AWS_18: Access logging needs a separate log bucket; deferred to hardening backlog
+  # checkov:skip=CKV_AWS_144: Cross-region replication is optional for demo state backends
+  # checkov:skip=CKV_AWS_145: AES256 SSE is the documented baseline; CMK optional for regulated tenants
+  # checkov:skip=CKV2_AWS_62: Event notifications not required for Terraform state
   bucket        = local.state_bucket_name
   force_destroy = var.force_destroy
 
@@ -95,7 +99,27 @@ resource "aws_s3_bucket_policy" "state" {
   policy = data.aws_iam_policy_document.state_bucket.json
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "state" {
+  bucket = aws_s3_bucket.state.id
+
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+}
+
 resource "aws_dynamodb_table" "locks" {
+  # checkov:skip=CKV_AWS_119: AWS-owned encryption is sufficient for state lock metadata
   name         = local.lock_table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
@@ -103,6 +127,10 @@ resource "aws_dynamodb_table" "locks" {
   attribute {
     name = "LockID"
     type = "S"
+  }
+
+  point_in_time_recovery {
+    enabled = true
   }
 
   tags = merge(local.tags, {

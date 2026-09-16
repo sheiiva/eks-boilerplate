@@ -15,7 +15,7 @@ Reusable AWS EKS landing zone accelerator: private networking, managed control p
 4. **EKS** — OIDC/IRSA, KMS secrets encryption, access entries, bootstrap node group  
 5. **Karpenter** — IRSA controller, interruption queue, default NodePool  
 6. **Add-ons** — AWS Load Balancer Controller + External Secrets (ExternalDNS optional)  
-7. **CI** — `terraform fmt` + `validate` on every change  
+7. **CI** — `terraform fmt` + `validate` + Checkov policy scan on every change  
 
 Live AWS apply is **optional** and costs money — see [cost guardrails](./docs/runbooks/cost-guardrails.md). Portfolio proof is validated Terraform + architecture docs.
 
@@ -53,10 +53,12 @@ done
 - [Project board](https://github.com/users/sheiiva/projects/7) — milestones, Done vs Todo  
 - [Bootstrap runbook](./docs/runbooks/bootstrap.md)  
 - [API access lockdown](./docs/runbooks/api-access.md)  
+- [Observability baseline](./docs/runbooks/observability.md)  
+- [CI gates / Checkov](./docs/ci-gates.md)  
 - [Cost guardrails](./docs/runbooks/cost-guardrails.md)  
 
 ## Current status
 
-**v1 complete (P0–P5)** — landing zone modules, demo composition, CI validate, operator runbooks.  
+**v1 complete (P0–P5).** **v1.1 in progress (P6–P7)** — API lockdown docs, Checkov gate, observability runbook.  
 
-**Next (v1.1 / v2):** tracked on the [project board](https://github.com/users/sheiiva/projects/7) under milestones P6–P8 (API lockdown, policy scan, observability, optional GitOps).
+Tracked on the [project board](https://github.com/users/sheiiva/projects/7).

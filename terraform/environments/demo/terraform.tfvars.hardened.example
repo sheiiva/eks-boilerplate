@@ -9,7 +9,7 @@ single_nat_gateway   = true
 enable_vpc_endpoints = true
 
 cluster_name       = "eks-lz-demo"
-kubernetes_version = "1.31"
+kubernetes_version = "1.32"
 
 enable_eks       = true
 enable_karpenter = true

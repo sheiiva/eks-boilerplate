@@ -30,12 +30,22 @@ locals {
 }
 
 resource "aws_vpc" "this" {
+  # checkov:skip=CKV2_AWS_11: VPC flow logs optional (cost); documented in observability runbook
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = merge(local.tags, {
     Name = "${local.name_prefix}-vpc"
+  })
+}
+
+resource "aws_default_security_group" "this" {
+  vpc_id = aws_vpc.this.id
+
+  # No ingress/egress rules — lock down the default SG.
+  tags = merge(local.tags, {
+    Name = "${local.name_prefix}-default-sg-locked"
   })
 }
 
@@ -48,6 +58,7 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_subnet" "public" {
+  # checkov:skip=CKV_AWS_130: Public subnets intentionally map public IPs for NAT/ALB
   for_each = {
     for idx, az in local.azs : az => {
       index = idx
@@ -162,6 +173,7 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_security_group" "vpc_endpoints" {
+  # checkov:skip=CKV2_AWS_5: Attached to interface VPC endpoints below
   count = var.enable_vpc_endpoints ? 1 : 0
 
   name_prefix = "${local.name_prefix}-vpce-"

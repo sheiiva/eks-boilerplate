@@ -132,6 +132,11 @@ Outcome:
 
 - Production-shaped access and automated misconfiguration detection.
 
+### P6 acceptance
+
+- [x] API access runbook + hardened tfvars example
+- [x] Checkov workflow with documented suppressions (`docs/ci-gates.md`)
+
 ## P7 - Observability Hooks (v1.1)
 
 Deliverables:
@@ -141,6 +146,11 @@ Deliverables:
 Outcome:
 
 - Clear day-1 signals without mandating a full APM stack.
+
+### P7 acceptance
+
+- [x] Observability runbook with day-1 vs optional signals
+- [x] Linked from README
 
 ## P8 - GitOps and Multi-Account Patterns (v2)
 
@@ -158,5 +168,5 @@ Outcome:
 |---|---|---|
 | **v0** | Productization: docs, module map, scaffold, milestones | P0 (Done) |
 | **v1** | Network + EKS + Karpenter + core add-ons + CI | P1–P5 (Done) |
-| **v1.1** | Hardening + observability hooks | P6–P7 (Todo) |
-| **v2** | Optional GitOps / multi-account patterns | P8 (Later) |
+| **v1.1** | Hardening + observability hooks | P6–P7 (Done) |
+| **v2** | Optional GitOps / multi-account patterns | P8 (Todo) |

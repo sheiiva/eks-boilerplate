@@ -1,3 +1,4 @@
+data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
 
 locals {
@@ -49,7 +50,45 @@ resource "aws_kms_key" "cluster" {
   description             = "EKS secrets encryption for ${var.cluster_name}"
   deletion_window_in_days = 7
   enable_key_rotation     = true
+  policy                  = data.aws_iam_policy_document.cluster_kms[0].json
   tags                    = local.tags
+}
+
+data "aws_iam_policy_document" "cluster_kms" {
+  count = var.enable_cluster_encryption ? 1 : 0
+
+  statement {
+    sid    = "EnableRootAccountAdmin"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"]
+    }
+
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "AllowEKSUseOfTheKey"
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["eks.amazonaws.com"]
+    }
+
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey",
+      "kms:CreateGrant",
+    ]
+    resources = ["*"]
+  }
 }
 
 resource "aws_kms_alias" "cluster" {
@@ -60,6 +99,8 @@ resource "aws_kms_alias" "cluster" {
 }
 
 resource "aws_eks_cluster" "this" {
+  # checkov:skip=CKV_AWS_38: Public 0.0.0.0/0 is demo default; use terraform.tfvars.hardened.example / docs/runbooks/api-access.md
+  # checkov:skip=CKV_AWS_39: Public endpoint optional for operator laptops; private-only documented in api-access.md
   name     = var.cluster_name
   role_arn = aws_iam_role.cluster.arn
   version  = var.kubernetes_version
@@ -90,6 +131,8 @@ resource "aws_eks_cluster" "this" {
     "api",
     "audit",
     "authenticator",
+    "controllerManager",
+    "scheduler",
   ]
 
   tags = merge(local.tags, {

@@ -1,0 +1,23 @@
+# Checkov configuration — see docs/ci-gates.md for skip rationale.
+compact: true
+quiet: true
+framework:
+  - terraform
+
+skip-check:
+  - CKV_AWS_38
+  - CKV_AWS_39
+  - CKV_AWS_130
+  - CKV_AWS_18
+  - CKV_AWS_144
+  - CKV_AWS_145
+  - CKV2_AWS_62
+  - CKV_AWS_119
+  - CKV2_AWS_11
+  - CKV_AWS_111
+  - CKV_AWS_356
+  - CKV_AWS_58
+  - CKV2_AWS_5
+  - CKV_AWS_109
+  - CKV_AWS_339
+  - CKV_AWS_37

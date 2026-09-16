@@ -223,6 +223,8 @@ data "aws_iam_policy_document" "controller" {
 }
 
 resource "aws_iam_policy" "controller" {
+  # checkov:skip=CKV_AWS_111: Karpenter requires broad EC2/IAM describe and scoped create actions per upstream guidance
+  # checkov:skip=CKV_AWS_356: Resource wildcards limited by account/region conditions where AWS APIs allow
   name   = "${local.name_prefix}-karpenter-controller"
   policy = data.aws_iam_policy_document.controller.json
   tags   = local.tags

@@ -164,6 +164,8 @@ data "aws_iam_policy_document" "alb" {
 }
 
 resource "aws_iam_policy" "alb" {
+  # checkov:skip=CKV_AWS_111: AWS Load Balancer Controller upstream policy requires ELB/EC2 describe and mutate
+  # checkov:skip=CKV_AWS_356: Matches AWS documented controller IAM policy resource shape
   count = var.enable_alb_controller ? 1 : 0
 
   name   = "${local.name_prefix}-alb-controller"
