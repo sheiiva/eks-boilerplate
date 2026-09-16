@@ -51,5 +51,5 @@ remote-state (once per account)
 | `remote-state` + `network` | P1 | Done |
 | `eks` | P2 | Done |
 | `karpenter` | P3 | Done |
-| `addons` | P4 | Planned |
+| `addons` | P4 | Done |
 | CI validate + runbooks | P5 | Planned |

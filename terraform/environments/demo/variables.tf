@@ -54,7 +54,19 @@ variable "kubernetes_version" {
 
 variable "enable_eks" {
   type        = bool
-  description = "Provision the EKS control plane."
+  description = "Provision the EKS control plane and related modules."
+  default     = true
+}
+
+variable "enable_karpenter" {
+  type        = bool
+  description = "Install Karpenter after EKS is ready."
+  default     = true
+}
+
+variable "enable_addons" {
+  type        = bool
+  description = "Install platform add-ons (ALB / ExternalDNS / External Secrets)."
   default     = true
 }
 
@@ -103,8 +115,34 @@ variable "cluster_admin_principal_arns" {
   default = []
 }
 
-variable "enable_karpenter" {
-  type        = bool
-  description = "Install Karpenter after EKS is ready."
-  default     = true
+variable "enable_alb_controller" {
+  type    = bool
+  default = true
+}
+
+variable "enable_external_dns" {
+  type    = bool
+  default = false
+}
+
+variable "enable_external_secrets" {
+  type    = bool
+  default = true
+}
+
+variable "domain_name" {
+  type        = string
+  description = "DNS domain filter for ExternalDNS."
+  default     = ""
+}
+
+variable "external_dns_zone_id" {
+  type        = string
+  description = "Route53 zone ID for ExternalDNS."
+  default     = ""
+}
+
+variable "secrets_backend" {
+  type    = string
+  default = "secretsmanager"
 }

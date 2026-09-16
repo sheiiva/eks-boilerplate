@@ -103,3 +103,23 @@ module "karpenter" {
   oidc_provider_url         = module.eks[0].oidc_provider_url
   cluster_security_group_id = module.eks[0].cluster_security_group_id
 }
+
+module "addons" {
+  count  = var.enable_eks && var.enable_addons ? 1 : 0
+  source = "../../modules/addons"
+
+  project_name               = var.project_name
+  environment                = var.environment
+  owner                      = var.owner
+  cluster_name               = module.eks[0].cluster_name
+  oidc_provider_arn          = module.eks[0].oidc_provider_arn
+  oidc_provider_url          = module.eks[0].oidc_provider_url
+  enable_alb_controller      = var.enable_alb_controller
+  enable_external_dns        = var.enable_external_dns
+  enable_external_secrets    = var.enable_external_secrets
+  external_dns_zone_id       = var.external_dns_zone_id
+  external_dns_domain_filter = var.domain_name
+  secrets_backend            = var.secrets_backend
+
+  depends_on = [module.karpenter]
+}

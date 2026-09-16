@@ -1,14 +1,15 @@
 # Module: addons
 
-Cluster platform add-ons: AWS Load Balancer Controller, External-DNS, External-Secrets Operator.
+Platform controllers with IRSA:
 
-**Status:** scaffold (implementation in **P4**)
+- AWS Load Balancer Controller (default on)
+- External Secrets Operator (default on)
+- ExternalDNS (default off — needs Route53 zone)
 
-## Planned inputs
+**Status:** implemented (P4)
 
-- Cluster name / OIDC, feature toggles per add-on
-- DNS zone ID, secrets backend selection
+## Notes
 
-## Planned outputs
-
-- IRSA role ARNs, Helm release identifiers (if applicable)
+- ExternalDNS stays off until `external_dns_zone_id` and `external_dns_domain_filter` are set.
+- Demo environments often enable ALB + External Secrets only.
+- Example manifests: `examples/` at repo root.

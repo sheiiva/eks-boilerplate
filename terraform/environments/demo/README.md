@@ -1,6 +1,6 @@
 # Environment: demo
 
-Composition: network + EKS + Karpenter (P3).
+Full landing-zone composition: network → EKS → Karpenter → platform add-ons.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ terraform plan
 terraform apply
 ```
 
-After apply:
+## After apply
 
 ```bash
 aws eks update-kubeconfig --region <region> --name <cluster_name>
@@ -28,4 +28,4 @@ kubectl get nodes
 kubectl get nodepools -A
 ```
 
-Platform add-ons (ALB, External Secrets) land in P4.
+Example manifests: `examples/` (Ingress + ExternalSecret).

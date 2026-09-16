@@ -6,12 +6,20 @@ aws_region   = "eu-west-1"
 vpc_cidr             = "10.40.0.0/16"
 az_count             = 2
 single_nat_gateway   = true
+# Cost tip: set false for short smoke tests unless you need private ECR pulls without NAT
 enable_vpc_endpoints = false
 
 cluster_name       = "eks-lz-demo"
 kubernetes_version = "1.31"
-enable_eks         = true
-enable_karpenter   = true
+
+enable_eks       = true
+enable_karpenter = true
+enable_addons    = true
+
+enable_alb_controller   = true
+enable_external_dns     = false
+enable_external_secrets = true
+secrets_backend         = "secretsmanager"
 
 # Restrict in real accounts, e.g. ["x.x.x.x/32"]
 public_access_cidrs = ["0.0.0.0/0"]

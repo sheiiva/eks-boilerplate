@@ -87,6 +87,12 @@ Outcome:
 
 - Cluster can expose services and consume secrets without kubectl snowflakes.
 
+### P4 acceptance
+
+- [x] `modules/addons` with feature toggles
+- [x] Examples under `examples/`
+- [x] Demo wires ALB + External Secrets (ExternalDNS optional)
+
 ## P5 - CI Gates and Operations
 
 Deliverables:
