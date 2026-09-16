@@ -1,64 +1,124 @@
 # Production-Ready EKS Boilerplate
 
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+[![Release](https://img.shields.io/github/v/release/sheiiva/eks-boilerplate?display_name=tag&sort=semver)](https://github.com/sheiiva/eks-boilerplate/releases/latest)
 [![Terraform Validate](https://github.com/sheiiva/eks-boilerplate/actions/workflows/terraform-validate.yml/badge.svg)](https://github.com/sheiiva/eks-boilerplate/actions/workflows/terraform-validate.yml)
+[![Policy Scan](https://github.com/sheiiva/eks-boilerplate/actions/workflows/policy-scan.yml/badge.svg)](https://github.com/sheiiva/eks-boilerplate/actions/workflows/policy-scan.yml)
+[![Terraform](https://img.shields.io/badge/Terraform-%3E%3D_1.6-7B42BC?logo=terraform&logoColor=white)](./terraform/README.md)
+[![License](https://img.shields.io/github/license/sheiiva/eks-boilerplate)](./LICENSE)
 
-## Business Value
+<p align="center">
+  <img src="./docs/assets/architecture.svg" alt="EKS landing zone architecture: private VPC, EKS, Karpenter, ALB, External Secrets, Terraform modules" width="920" />
+</p>
 
-Reusable AWS EKS landing zone accelerator: private networking, managed control plane, Karpenter elasticity, and platform controllers (ALB, External Secrets, optional ExternalDNS) — onboard by configuration, not by rewriting modules.
+<p align="center">
+  <b>AWS EKS landing zone accelerator</b> — private networking, Karpenter elasticity, platform add-ons.<br/>
+  Onboard by configuration, not by rewriting modules. Live apply optional.
+</p>
 
-## What v1 demonstrates
+<p align="center">
+  <a href="https://github.com/sheiiva/eks-boilerplate/releases/tag/v1.1.0">v1.1.0 release</a> ·
+  <a href="https://github.com/users/sheiiva/projects/7">Project board</a> ·
+  <a href="./docs/architecture.md">Architecture</a> ·
+  <a href="./docs/runbooks/cost-guardrails.md">Cost guardrails</a>
+</p>
 
-1. **Template-first IaC** — modules + `environments/demo` composition  
-2. **Remote state bootstrap** — S3 + DynamoDB lock  
-3. **Private VPC** — NAT, optional endpoints, ALB/Karpenter subnet tags  
-4. **EKS** — OIDC/IRSA, KMS secrets encryption, access entries, bootstrap node group  
-5. **Karpenter** — IRSA controller, interruption queue, default NodePool  
-6. **Add-ons** — AWS Load Balancer Controller + External Secrets (ExternalDNS optional)  
-7. **CI** — `terraform fmt` + `validate` + Checkov policy scan on every change  
+---
 
-Live AWS apply is **optional** and costs money — see [cost guardrails](./docs/runbooks/cost-guardrails.md). Portfolio proof is validated Terraform + architecture docs.
+## Architecture at a glance
+
+```mermaid
+flowchart LR
+  subgraph Edge
+    U[Users] --> ALB[ALB Controller]
+  end
+
+  subgraph VPC[Private VPC]
+    PUB[Public + NAT] --> PRIV[Private subnets]
+    PRIV --> EKS[EKS + OIDC/IRSA]
+    EKS --> KARP[Karpenter]
+    KARP --> NODES[Nodes / workloads]
+    ALB --> NODES
+    ESO[External Secrets] --> SM[Secrets Manager]
+    NODES --> ESO
+  end
+
+  subgraph IaC[Terraform]
+    RS[remote-state] --> NET[network]
+    NET --> EKSM[eks]
+    EKSM --> KARPM[karpenter]
+    EKSM --> ADD[addons]
+  end
+
+  IaC -.-> VPC
+```
+
+Module dependency order: **remote-state → network → eks → karpenter / addons**
+
+---
+
+## Business value
+
+Reusable production-shaped Kubernetes baseline on AWS: security defaults first, elastic capacity via Karpenter, ingress and secrets without kubectl snowflakes — demoable as validated Terraform without a 24/7 cluster bill.
+
+## What v1.1 demonstrates
+
+| Layer | Capability |
+|---|---|
+| **IaC** | Template-first modules + `environments/demo` composition |
+| **State** | S3 + DynamoDB lock bootstrap |
+| **Network** | Private VPC, NAT, optional endpoints, ALB/Karpenter tags |
+| **Control plane** | EKS, OIDC/IRSA, KMS secrets, access entries, full API logs |
+| **Data plane** | Karpenter NodePool + interruption queue |
+| **Platform** | ALB Controller + External Secrets (ExternalDNS optional) |
+| **Delivery** | `fmt` / `validate` + Checkov, runbooks, releases |
+
+Live AWS apply costs money — see [cost guardrails](./docs/runbooks/cost-guardrails.md).
+
+---
 
 ## Quick start (no AWS spend)
 
 ```bash
 git clone https://github.com/sheiiva/eks-boilerplate.git
 cd eks-boilerplate
-for d in terraform/modules/* terraform/bootstrap terraform/environments/demo; do
-  terraform -chdir="$d" init -backend=false -input=false
-  terraform -chdir="$d" validate
-done
+./scripts/validate.sh
 ```
 
-## Apply path (ephemeral demo)
+## Apply path (ephemeral)
 
-1. [`terraform/bootstrap`](./terraform/bootstrap/README.md) — create state backend  
-2. [`terraform/environments/demo`](./terraform/environments/demo/README.md) — network + EKS + Karpenter + add-ons  
-3. Destroy when done — [`docs/runbooks/destroy.md`](./docs/runbooks/destroy.md)
+1. [`terraform/bootstrap`](./terraform/bootstrap/README.md) — state backend  
+2. [`terraform/environments/demo`](./terraform/environments/demo/README.md) — full stack  
+3. Prefer [`terraform.tfvars.hardened.example`](./terraform/environments/demo/terraform.tfvars.hardened.example) outside throwaway demos  
+4. [`destroy`](./docs/runbooks/destroy.md) when done  
 
-## Directory layout
+---
 
-- `terraform/modules/` — remote-state, network, eks, karpenter, addons  
-- `terraform/bootstrap/` — one-time state backend  
-- `terraform/environments/demo/` — reference composition  
-- `examples/` — Ingress + ExternalSecret samples  
-- `docs/` — architecture, roadmap, runbooks  
+## Repository map
 
-## Delivery docs
+```text
+terraform/
+  bootstrap/           # one-time remote state
+  modules/             # remote-state · network · eks · karpenter · addons
+  environments/demo/   # reference composition
+docs/
+  assets/architecture.svg
+  runbooks/            # bootstrap · api-access · observability · cost
+examples/              # Ingress · ExternalSecret samples
+```
 
-- [Architecture](./docs/architecture.md)  
-- [Module map](./docs/module-map.md)  
-- [Config model](./docs/config-model.md)  
-- [Roadmap](./docs/roadmap.md)  
-- [Project board](https://github.com/users/sheiiva/projects/7) — milestones, Done vs Todo  
-- [Bootstrap runbook](./docs/runbooks/bootstrap.md)  
-- [API access lockdown](./docs/runbooks/api-access.md)  
-- [Observability baseline](./docs/runbooks/observability.md)  
-- [CI gates / Checkov](./docs/ci-gates.md)  
-- [Cost guardrails](./docs/runbooks/cost-guardrails.md)  
+## Docs
 
-## Current status
+| Topic | Link |
+|---|---|
+| Architecture | [`docs/architecture.md`](./docs/architecture.md) |
+| Module map | [`docs/module-map.md`](./docs/module-map.md) |
+| Config model | [`docs/config-model.md`](./docs/config-model.md) |
+| Roadmap | [`docs/roadmap.md`](./docs/roadmap.md) |
+| Project board | [projects/7](https://github.com/users/sheiiva/projects/7) |
+| API lockdown | [`docs/runbooks/api-access.md`](./docs/runbooks/api-access.md) |
+| Observability | [`docs/runbooks/observability.md`](./docs/runbooks/observability.md) |
+| CI / Checkov | [`docs/ci-gates.md`](./docs/ci-gates.md) |
 
-**v1 complete (P0–P5).** **v1.1 in progress (P6–P7)** — API lockdown docs, Checkov gate, observability runbook.  
+## Status
 
-Tracked on the [project board](https://github.com/users/sheiiva/projects/7).
+**v1.1.0 released** (P0–P7). Optional next: GitOps sketch (P8 / [#15](https://github.com/sheiiva/eks-boilerplate/issues/15)).

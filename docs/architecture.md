@@ -8,6 +8,10 @@ Portfolio and client reuse share the same design: private-by-default networking,
 
 ## System Diagram
 
+Interactive copy (Mermaid) also appears on the [README](../README.md). Static overview:
+
+![EKS landing zone architecture](./assets/architecture.svg)
+
 ```mermaid
 flowchart TB
   subgraph Edge
