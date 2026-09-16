@@ -6,6 +6,14 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.12, < 3.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.27"
+    }
     tls = {
       source  = "hashicorp/tls"
       version = ">= 4.0"
@@ -26,6 +34,25 @@ provider "aws" {
       owner       = var.owner
       managed_by  = "terraform"
     }
+  }
+}
+
+data "aws_eks_cluster_auth" "this" {
+  count = var.enable_eks ? 1 : 0
+  name  = module.eks[0].cluster_name
+}
+
+provider "kubernetes" {
+  host                   = try(module.eks[0].cluster_endpoint, null)
+  cluster_ca_certificate = try(base64decode(module.eks[0].cluster_certificate_authority_data), null)
+  token                  = try(data.aws_eks_cluster_auth.this[0].token, null)
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = try(module.eks[0].cluster_endpoint, null)
+    cluster_ca_certificate = try(base64decode(module.eks[0].cluster_certificate_authority_data), null)
+    token                  = try(data.aws_eks_cluster_auth.this[0].token, null)
   }
 }
 
@@ -61,4 +88,18 @@ module "eks" {
   bootstrap_min_size           = var.bootstrap_min_size
   bootstrap_max_size           = var.bootstrap_max_size
   cluster_admin_principal_arns = var.cluster_admin_principal_arns
+}
+
+module "karpenter" {
+  count  = var.enable_eks && var.enable_karpenter ? 1 : 0
+  source = "../../modules/karpenter"
+
+  project_name              = var.project_name
+  environment               = var.environment
+  owner                     = var.owner
+  cluster_name              = module.eks[0].cluster_name
+  cluster_endpoint          = module.eks[0].cluster_endpoint
+  oidc_provider_arn         = module.eks[0].oidc_provider_arn
+  oidc_provider_url         = module.eks[0].oidc_provider_url
+  cluster_security_group_id = module.eks[0].cluster_security_group_id
 }

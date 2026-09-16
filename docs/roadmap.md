@@ -68,6 +68,12 @@ Outcome:
 
 - Elastic data plane without oversized static node groups.
 
+### P3 acceptance
+
+- [x] Controller IRSA + interruption SQS/EventBridge
+- [x] Helm install + default EC2NodeClass/NodePool
+- [x] Consolidation notes in module README; demo wires Karpenter
+
 ## P4 - Platform Add-ons
 
 Deliverables:

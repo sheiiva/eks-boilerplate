@@ -1,6 +1,6 @@
 # Environment: demo
 
-Composition: network + EKS control plane (P2).
+Composition: network + EKS + Karpenter (P3).
 
 ## Prerequisites
 
@@ -20,11 +20,12 @@ terraform plan
 terraform apply
 ```
 
-Local validation without remote backend:
+After apply:
 
 ```bash
-terraform init -backend=false
-terraform validate
+aws eks update-kubeconfig --region <region> --name <cluster_name>
+kubectl get nodes
+kubectl get nodepools -A
 ```
 
-Karpenter and platform add-ons land in later milestones (P3–P4).
+Platform add-ons (ALB, External Secrets) land in P4.

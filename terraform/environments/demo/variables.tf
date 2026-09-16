@@ -102,3 +102,9 @@ variable "cluster_admin_principal_arns" {
   type    = list(string)
   default = []
 }
+
+variable "enable_karpenter" {
+  type        = bool
+  description = "Install Karpenter after EKS is ready."
+  default     = true
+}

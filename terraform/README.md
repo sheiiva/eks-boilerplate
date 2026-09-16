@@ -8,9 +8,9 @@ Reusable modules and environment compositions for the EKS landing zone.
 - `modules/remote-state/` — state bucket + lock table
 - `modules/network/` — VPC and networking baseline
 - `modules/eks/` — EKS control plane and IRSA/OIDC
-- `modules/karpenter/` — Karpenter controller and NodePool defaults (P3)
+- `modules/karpenter/` — Karpenter controller and NodePool defaults
 - `modules/addons/` — ALB Controller, External-DNS, External-Secrets (P4)
-- `environments/demo/` — reference composition (network + EKS)
+- `environments/demo/` — reference composition (network + EKS + Karpenter)
 
 ## Notes
 

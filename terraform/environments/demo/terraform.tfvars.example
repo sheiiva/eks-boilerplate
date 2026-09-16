@@ -11,6 +11,7 @@ enable_vpc_endpoints = false
 cluster_name       = "eks-lz-demo"
 kubernetes_version = "1.31"
 enable_eks         = true
+enable_karpenter   = true
 
 # Restrict in real accounts, e.g. ["x.x.x.x/32"]
 public_access_cidrs = ["0.0.0.0/0"]
