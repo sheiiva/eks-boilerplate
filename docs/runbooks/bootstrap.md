@@ -27,10 +27,10 @@ kubectl get nodes
 kubectl get pods -n kube-system
 ```
 
+API endpoint exposure (`public` / CIDR lock / private-only) is documented in [`api-access.md`](./api-access.md). Copy `terraform.tfvars.hardened.example` for a CIDR-restricted starting point.
+
 ## Validation without AWS spend
 
 ```bash
-terraform -chdir=terraform/modules/network init -backend=false
-terraform -chdir=terraform/modules/network validate
-# repeat for eks, karpenter, addons, bootstrap, environments/demo
+./scripts/validate.sh
 ```

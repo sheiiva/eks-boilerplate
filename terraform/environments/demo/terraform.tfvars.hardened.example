@@ -6,8 +6,7 @@ aws_region   = "eu-west-1"
 vpc_cidr             = "10.40.0.0/16"
 az_count             = 2
 single_nat_gateway   = true
-# Cost tip: set false for short smoke tests unless you need private ECR pulls without NAT
-enable_vpc_endpoints = false
+enable_vpc_endpoints = true
 
 cluster_name       = "eks-lz-demo"
 kubernetes_version = "1.31"
@@ -21,6 +20,8 @@ enable_external_dns     = false
 enable_external_secrets = true
 secrets_backend         = "secretsmanager"
 
-# DEMO ONLY — open API from the internet. Do not use in real accounts.
-# Prefer terraform.tfvars.hardened.example + docs/runbooks/api-access.md
-public_access_cidrs = ["0.0.0.0/0"]
+# Production-shaped API access (see docs/runbooks/api-access.md)
+endpoint_private_access = true
+endpoint_public_access  = true
+# Replace with your public IP / VPN egress — never leave as 0.0.0.0/0 outside demos
+public_access_cidrs = ["REPLACE_WITH_YOUR_IP/32"]

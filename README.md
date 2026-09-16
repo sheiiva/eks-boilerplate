@@ -52,6 +52,7 @@ done
 - [Roadmap](./docs/roadmap.md)  
 - [Project board](https://github.com/users/sheiiva/projects/7) — milestones, Done vs Todo  
 - [Bootstrap runbook](./docs/runbooks/bootstrap.md)  
+- [API access lockdown](./docs/runbooks/api-access.md)  
 - [Cost guardrails](./docs/runbooks/cost-guardrails.md)  
 
 ## Current status
