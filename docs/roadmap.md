@@ -2,6 +2,8 @@
 
 This roadmap maps GitHub milestones to delivery outcomes for the EKS landing zone accelerator.
 
+**Project board:** https://github.com/users/sheiiva/projects/7
+
 ## P0 - Productization and Landing Zone Design
 
 Deliverables:
@@ -16,6 +18,15 @@ Deliverables:
 Outcome:
 
 - Clear product shape before writing cluster resources; onboarding path is configuration-driven.
+
+### P0 acceptance
+
+- [x] Architecture doc with diagram and non-goals
+- [x] Module map with dependency order
+- [x] Config / parameter model
+- [x] ADR template-first landing zone
+- [x] Terraform layout scaffold + module stub READMEs
+- [x] Roadmap published; GitHub milestones created
 
 ## P1 - Remote State and Network Foundation
 
@@ -54,7 +65,7 @@ Outcome:
 
 - [x] `modules/eks` with OIDC, KMS encryption, access entries, managed add-ons
 - [x] Optional bootstrap managed node group
-- [x] Operator access documented; demo composition wires EKS
+- [x] Operator access documented
 
 ## P3 - Karpenter Node Autoscaling
 
@@ -72,7 +83,7 @@ Outcome:
 
 - [x] Controller IRSA + interruption SQS/EventBridge
 - [x] Helm install + default EC2NodeClass/NodePool
-- [x] Consolidation notes in module README; demo wires Karpenter
+- [x] Consolidation notes in module README
 
 ## P4 - Platform Add-ons
 
@@ -91,7 +102,6 @@ Outcome:
 
 - [x] `modules/addons` with feature toggles
 - [x] Examples under `examples/`
-- [x] Demo wires ALB + External Secrets (ExternalDNS optional)
 
 ## P5 - CI Gates and Operations
 
@@ -111,11 +121,42 @@ Outcome:
 - [x] Runbooks: bootstrap, destroy, cost guardrails
 - [x] README v1 positioning (apply optional)
 
+## P6 - Hardening and Security Posture (v1.1)
+
+Deliverables:
+
+- Private API / CIDR lockdown documentation and examples
+- Policy-as-code CI gate (Checkov or equivalent)
+
+Outcome:
+
+- Production-shaped access and automated misconfiguration detection.
+
+## P7 - Observability Hooks (v1.1)
+
+Deliverables:
+
+- Baseline observability runbook (control plane, nodes, ALB)
+
+Outcome:
+
+- Clear day-1 signals without mandating a full APM stack.
+
+## P8 - GitOps and Multi-Account Patterns (v2)
+
+Deliverables:
+
+- Optional GitOps adoption sketch (Argo CD / Flux)
+
+Outcome:
+
+- Documented path beyond the landing zone without expanding v1 scope.
+
 ## Product versions
 
 | Version | What ships | Tracking |
 |---|---|---|
 | **v0** | Productization: docs, module map, scaffold, milestones | P0 (Done) |
 | **v1** | Network + EKS + Karpenter + core add-ons + CI | P1–P5 (Done) |
-| **v1.1** | Hardening + observability hooks | later |
-| **v2** | Optional GitOps / multi-account patterns | later |
+| **v1.1** | Hardening + observability hooks | P6–P7 (Todo) |
+| **v2** | Optional GitOps / multi-account patterns | P8 (Later) |

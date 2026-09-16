@@ -24,7 +24,10 @@ Live AWS apply is **optional** and costs money — see [cost guardrails](./docs/
 ```bash
 git clone https://github.com/sheiiva/eks-boilerplate.git
 cd eks-boilerplate
-./scripts/validate.sh
+for d in terraform/modules/* terraform/bootstrap terraform/environments/demo; do
+  terraform -chdir="$d" init -backend=false -input=false
+  terraform -chdir="$d" validate
+done
 ```
 
 ## Apply path (ephemeral demo)
@@ -47,9 +50,12 @@ cd eks-boilerplate
 - [Module map](./docs/module-map.md)  
 - [Config model](./docs/config-model.md)  
 - [Roadmap](./docs/roadmap.md)  
+- [Project board](https://github.com/users/sheiiva/projects/7) — milestones, Done vs Todo  
 - [Bootstrap runbook](./docs/runbooks/bootstrap.md)  
 - [Cost guardrails](./docs/runbooks/cost-guardrails.md)  
 
 ## Current status
 
-**v1 complete (P0–P5)** — landing zone modules, demo composition, CI validate, operator runbooks.
+**v1 complete (P0–P5)** — landing zone modules, demo composition, CI validate, operator runbooks.  
+
+**Next (v1.1 / v2):** tracked on the [project board](https://github.com/users/sheiiva/projects/7) under milestones P6–P8 (API lockdown, policy scan, observability, optional GitOps).
